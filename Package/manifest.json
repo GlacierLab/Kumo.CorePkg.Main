@@ -1,0 +1,19 @@
+{
+    "ManifestVersion": 1,
+    "Name": "CorePkg.Main",
+    "DisplayName": "云酱主程序",
+    "Description": "云酱桌面端的主界面，包含核心功能",
+    "Author": "琴梨梨",
+    "PkgVersion": 1,
+    "RequireVersion": 100,
+    "Server": "https://github.com/GlacierLab/KumoDesktopPackages/releases/download/",
+    "SecurityLevel": 0,
+    "Permissions": [
+        "ReadFile",
+        "WriteFile",
+        "Execute"
+    ],
+    "Path": "CorePkg\\Main",
+    "Domain": "main.kumo-desktop.qinlili.bid",
+    "Entry": "index.html"
+}

@@ -1,0 +1,63 @@
+{
+    "Version": 1,
+    "Settings": [
+        {
+            "type": "bool",
+            "key": "checkUpdateLaunch",
+            "default": true,
+            "name": "启动时检查数据更新",
+            "description": "当启动关键任务执行完成后检查更新"
+        },
+        {
+            "type": "sub",
+            "key": "ui",
+            "name": "界面",
+            "description": "自定义界面",
+            "child": [
+                {
+                    "type": "bool",
+                    "key": "hideNonInstall",
+                    "default": false,
+                    "name": "收起未安装的项目",
+                    "description": "未安装的项目收起到更多里"
+                },
+                {
+                    "type": "string",
+                    "key": "welcome",
+                    "default": "主人你终于来看云酱啦！",
+                    "name": "欢迎词",
+                    "description": "启动时显示在标题上"
+                },
+                {
+                    "type": "number",
+                    "key": "size",
+                    "default": 256,
+                    "name": "项目方块的大小",
+                    "description": "宽度实际可能会略大于设定用于填充，单位为px"
+                }
+            ]
+        },
+        {
+            "type": "sub",
+            "key": "feature",
+            "name": "功能",
+            "description": "修改功能偏好",
+            "child": [
+                {
+                    "type": "bool",
+                    "key": "detectRunning",
+                    "default": true,
+                    "name": "检测进程运行",
+                    "description": "允许云酱检测进程运行状态判断是否已启动"
+                }
+            ]
+        },
+        {
+            "type": "link",
+            "key": "link",
+            "target": "https://kumo.qinlili.bid/",
+            "name": "打开经典版",
+            "description": "在浏览器内使用经典版导航"
+        }
+    ]
+}
