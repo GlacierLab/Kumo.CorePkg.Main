@@ -19,6 +19,11 @@ const Module = {
                 menu.style.display = getComputedStyle(menu).display == "none" ? "flex" : "none";
             });
             //默认菜单内容
+            Module.FloatMenu.add("/res/icon/settings.svg", "设置", async () => {
+                document.getElementById("float-layer").style.display = "block";
+                await chrome.webview.hostObjects.KumoBridge.Kumo_OpenPreferenceWindow();
+                document.getElementById("float-layer").style.display = "none";
+            })
             Module.FloatMenu.add("/res/icon/developer_mode.svg", "开发者工具", () => { chrome.webview.hostObjects.sync.KumoBridge.Window_OpenDevTools() })
         },
         add: (icon, name, callback) => {
@@ -39,6 +44,22 @@ const Module = {
         remove: ele => {
             document.getElementById("float-menu").removeChild(ele);
         }
+    },
+    //配置同步
+    PreferenceManager: {
+        init: () => {
+            Module.PreferenceManager.sync();
+        },
+        sync: async (readonly = false) => {
+            window.Preference = JSON.parse(await chrome.webview.hostObjects.KumoBridge.Kumo_SyncPreference(readonly ? null : window.Preference ? JSON.stringify(window.Preference) : null));
+        }
+    },
+    //队列任务管理工具
+    TaskScheduler: {
+        add: (name, callback) => {
+
+        },
+        list: []
     }
 };
 const Callback = {

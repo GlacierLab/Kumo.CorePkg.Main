@@ -71,6 +71,18 @@
       background-color: #e0443e;
     }
 
+    /*悬浮层*/
+    #float-layer {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      display: none;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 100;
+    }
+
     /*展开菜单*/
     #float-menu {
       width: auto;
@@ -81,6 +93,8 @@
       top: 28px;
       right: 108px;
       display: none;
+      flex-direction: column;
+      z-index: 10;
     }
 
     .menu-item {
@@ -138,6 +152,8 @@
         style="background-image:url(res/icon/close.svg)"></div>
     </div>
   </div>
+  <!--灰色悬浮层-->
+  <div id="float-layer"></div>
   <!--展开菜单-->
   <div id="float-menu"></div>
   <script src="index.js"></script>
