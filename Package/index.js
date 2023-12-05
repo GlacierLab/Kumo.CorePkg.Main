@@ -18,11 +18,13 @@ const Module = {
                 const menu = document.getElementById("float-menu");
                 menu.style.display = getComputedStyle(menu).display == "none" ? "flex" : "none";
             });
+            document.getElementById("float-menu").addEventListener("click", () => {
+                document.getElementById("float-menu").style.display = "none";
+            });
             //默认菜单内容
-            Module.FloatMenu.add("/res/icon/settings.svg", "设置", async () => {
-                document.getElementById("float-layer").style.display = "block";
-                await chrome.webview.hostObjects.KumoBridge.Kumo_OpenPreferenceWindow();
-                document.getElementById("float-layer").style.display = "none";
+            Module.FloatMenu.add("/res/icon/settings.svg", "设置", async (e) => {
+                await Module.PreferenceManager.sync(true);
+                chrome.webview.hostObjects.KumoBridge.Kumo_OpenPreferenceWindow();
             })
             Module.FloatMenu.add("/res/icon/developer_mode.svg", "开发者工具", () => { chrome.webview.hostObjects.sync.KumoBridge.Window_OpenDevTools() })
         },
@@ -65,6 +67,9 @@ const Module = {
 const Callback = {
     Window_State: max => {
         document.getElementById("btn-maximize").style.backgroundImage = max ? 'url(res/icon/fullscreen_exit.svg)' : 'url(res/icon/fullscreen.svg)';
+    },
+    Preference_Change: () => {
+        Module.PreferenceManager.sync();
     }
 }
 Module.AutoInit.run();
