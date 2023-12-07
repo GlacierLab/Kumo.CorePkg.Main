@@ -5,7 +5,7 @@
             "type": "bool",
             "key": "checkUpdateLaunch",
             "default": true,
-            "name": "启动时检查数据更新",
+            "name": "启动时检查更新",
             "description": "当启动关键任务执行完成后检查更新"
         },
         {

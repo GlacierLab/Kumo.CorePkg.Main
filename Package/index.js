@@ -22,6 +22,10 @@ const Module = {
                 document.getElementById("float-menu").style.display = "none";
             });
             //默认菜单内容
+            Module.FloatMenu.add("/res/icon/update.svg", "检查更新", async (e) => {
+                //先检查扩展包
+                //再检查运行时
+            });
             Module.FloatMenu.add("/res/icon/settings.svg", "设置", async (e) => {
                 await Module.PreferenceManager.sync(true);
                 chrome.webview.hostObjects.KumoBridge.Kumo_OpenPreferenceWindow();
