@@ -17,7 +17,7 @@
                 {
                     "type": "bool",
                     "key": "hideNonInstall",
-                    "default": false,
+                    "default": true,
                     "name": "收起未安装的项目",
                     "description": "未安装的项目收起到更多里"
                 },
