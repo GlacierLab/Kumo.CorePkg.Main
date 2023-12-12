@@ -31,6 +31,7 @@ const Module = {
                 chrome.webview.hostObjects.KumoBridge.Kumo_OpenPreferenceWindow();
             })
             Module.FloatMenu.add("/res/icon/developer_mode.svg", "开发者工具", () => { chrome.webview.hostObjects.sync.KumoBridge.Window_OpenDevTools() })
+            Module.FloatMenu.add("/res/icon/info.svg", "关于", () => { Module.FloatFrame.show("/subframe/about.html"); })
         },
         add: (icon, name, callback) => {
             let menuItem = document.createElement("div");
@@ -49,6 +50,32 @@ const Module = {
         },
         remove: ele => {
             document.getElementById("float-menu").removeChild(ele);
+        }
+    },
+    //浮动页面
+    FloatFrame: {
+        show: url => {
+            let frame = document.createElement("iframe");
+            frame.id = "frame-page";
+            frame.src = url;
+            let message = async (event) => {
+                console.log(event.data)
+                if (typeof event.data == "string") {
+                    if (event.data == "close") {
+                        Module.FloatFrame.hide();
+                        window.removeEventListener("message", message);
+                    }
+                }
+            }
+            window.addEventListener("message", message);
+            document.getElementById("float-frame").appendChild(frame);
+            document.getElementById("float-frame").style.display = "flex";
+            document.getElementById("float-layer").style.display = "block";
+        },
+        hide: () => {
+            document.getElementById("float-frame").removeChild(document.getElementById("frame-page"));
+            document.getElementById("float-frame").style.display = "none";
+            document.getElementById("float-layer").style.display = "none";
         }
     },
     //配置同步

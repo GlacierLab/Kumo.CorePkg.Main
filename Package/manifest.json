@@ -15,5 +15,8 @@
     ],
     "Path": "CorePkg\\Main",
     "Domain": "main.kumo-desktop.qinlili.bid",
-    "Entry": "index.html"
+    "Entry": "index.html",
+    "ChildPkg": [
+        "CorePkg.Main.Data"
+    ]
 }
