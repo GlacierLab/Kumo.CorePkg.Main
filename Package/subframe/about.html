@@ -4,12 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <style>
+        * {
+            user-select: none;
+        }
+
+        body {
+            margin: 0px;
+        }
+
         .title-bar {
             width: 100%;
             height: 28px;
-            position: fixed;
-            top: 0px;
-            left: 0px;
             display: flex;
             flex-direction: row;
             justify-content: space-between;
@@ -39,16 +44,37 @@
                 background-color: #e0443e;
             }
         }
+
+        a {
+            color: darkorange;
+            text-decoration: none !important;
+            cursor: pointer;
+        }
     </style>
 </head>
 
 <body>
-
     <div class="title-bar">
         <span id="title-text">关于</span>
         <div class="btn-icon" id="btn-close" onclick="parent.postMessage('close','*')"
             style="background-image:url(/res/icon/close.svg)"></div>
     </div>
+    <div id="main-text" style="margin: 8px;">
+        <p>云酱，为玩家而生！玩得痛快就是唯一目标！</p>
+        <p>本项目由<a
+                onclick="parent.chrome.webview.hostObjects.KumoBridge.Execute_OpenUrl('https://qinlili.bid')">琴梨梨</a>发起
+        </p>
+    </div>
+    <script>
+        (async () => {
+            let config = await fetch("/manifest.json").then(res => res.json());
+            let dataConfig = await fetch("/Data/manifest.json").then(res => res.json()).catch(() => ({}));
+            let versionText = document.createElement("p");
+            versionText.style.fontSize = "0.8em";
+            versionText.innerHTML = "运行时版本号：" + await parent.chrome.webview.hostObjects.KumoBridge.Kumo_Version() + "<br>UI版本号：" + config.PkgVersion + "<br>数据版本号：" + dataConfig.PkgVersion;
+            document.getElementById("main-text").appendChild(versionText);
+        })()
+    </script>
 </body>
 
 </html>
