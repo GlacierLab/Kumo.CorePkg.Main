@@ -105,7 +105,6 @@
       align-items: left;
       height: 32px;
       padding: 2px;
-      transition: all 0.2s;
       background-color: transparent;
 
       &:hover {
@@ -158,6 +157,59 @@
       height: 100%;
       border: none;
     }
+
+    /*左侧导航栏*/
+    #left-nav {
+      width: 40px;
+      height: calc(100% - 28px);
+      position: absolute;
+      top: 28px;
+      left: 0px;
+      z-index: 100;
+      border-right: 1px solid;
+      display: flex;
+      flex-direction: column;
+
+      &>.nav-item {
+        margin: 4px;
+        width: calc(100% - 8px);
+        height: 32px;
+        display: flex;
+        border-radius: 4px;
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        &:active,
+        &.active {
+          background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        &>.nav-icon {
+          height: 32px;
+          width: 32px;
+          padding: 2px;
+          opacity: 0.7;
+        }
+
+        &>.nav-text {
+          display: none;
+          height: 32px;
+          padding: 2px;
+          line-height: 28px;
+          font-size: 1.1rem;
+        }
+      }
+
+      &:hover {
+        width: 150px;
+
+        &>.nav-item>.nav-text {
+          display: block;
+        }
+      }
+    }
   </style>
 </head>
 
@@ -177,6 +229,10 @@
       <div class="btn-icon" id="btn-close" onclick="chrome.webview.hostObjects.KumoBridge.Window_Close()"
         style="background-image:url(res/icon/close.svg)"></div>
     </div>
+  </div>
+  <!--左侧导航栏-->
+  <div id="left-nav">
+
   </div>
   <!--灰色悬浮层-->
   <div id="float-layer"></div>

@@ -2,12 +2,22 @@
 const Module = {
     //自动初始化
     AutoInit: {
-        run: () => {
-            Object.entries(Module).forEach(([key, value]) => {
+        run: async () => {
+            for (const [key, value] of Object.entries(Module)) {
                 if (value.init) {
-                    value.init();
+                    console.log("Module " + key + " init;");
+                    await value.init();
                 }
-            });
+            };
+        }
+    },
+    //配置同步
+    PreferenceManager: {
+        init: async () => {
+            await Module.PreferenceManager.sync();
+        },
+        sync: async (readonly = true) => {
+            window.Preference = JSON.parse(await chrome.webview.hostObjects.KumoBridge.Kumo_SyncPreference(readonly ? null : window.Preference ? JSON.stringify(window.Preference) : null));
         }
     },
     //浮动菜单
@@ -78,13 +88,76 @@ const Module = {
             document.getElementById("float-layer").style.display = "none";
         }
     },
-    //配置同步
-    PreferenceManager: {
+    //左侧导航页
+    LeftNav: {
         init: () => {
-            Module.PreferenceManager.sync();
+            //先添加默认菜单，页面绘制TODO
+            Module.LeftNav.add("/res/icon/rocket.svg", "一键启动", "onekey");
+            Module.LeftNav.add("/res/icon/apps.svg", "已安装", "local");
+            Module.LeftNav.add("/res/icon/add.svg", "添加更多", "add");
+            Module.LeftNav.add("/res/icon/cloud.svg", "轻应用", "cloud");
+            Module.LeftNav.add("/res/icon/toolbox.svg", "轻应用", "toolbox");
+            if (window.Preference.onekeyLaunchByDefault) {
+                Module.LeftNav.switchTo("onekey");
+            } else {
+                Module.LeftNav.switchTo("local");
+            }
         },
-        sync: async (readonly = false) => {
-            window.Preference = JSON.parse(await chrome.webview.hostObjects.KumoBridge.Kumo_SyncPreference(readonly ? null : window.Preference ? JSON.stringify(window.Preference) : null));
+        add: (icon, name, key) => {
+            let menuItem = document.createElement("div");
+            menuItem.className = "nav-item";
+            menuItem.setAttribute("key", key);
+            let iconEle = document.createElement("img");
+            iconEle.className = "nav-icon";
+            iconEle.src = icon;
+            menuItem.appendChild(iconEle);
+            let nameEle = document.createElement("span");
+            nameEle.innerText = name;
+            nameEle.className = "nav-text";
+            menuItem.appendChild(nameEle);
+            menuItem.addEventListener("click", () => {
+                Module.LeftNav.switchTo(key);
+            });
+            document.getElementById("left-nav").appendChild(menuItem);
+            return menuItem;
+        },
+        switchTo: key => {
+            let page = document.querySelector("#left-nav .nav-item[key='" + key + "']");
+            if (page) {
+                document.querySelectorAll("#left-nav .nav-item").forEach(ele => {
+                    ele.classList.remove("active");
+                });
+                page.classList.add("active");
+                Module.MainTab.switchTo(key);
+                return true;
+            } else {
+                return false;
+            }
+        },
+        remove: ele => {
+            document.getElementById("left-nav").removeChild(ele);
+        }
+    },
+    //右侧主页面
+    MainTab: {
+        addPage: key => {
+            let page = document.createElement("div");
+            page.className = "tab-page";
+            page.setAttribute("key", key);
+            document.getElementById("main-tab").appendChild(page);
+            return page;
+        },
+        switchTo: key => {
+            let page = document.querySelector("#main-tab .tab-page[key='" + key + "']");
+            if (page) {
+                document.querySelectorAll("#main-tab .tab-page").forEach(ele => {
+                    ele.style.display = "none";
+                });
+                page.style.display = "flex";
+                return true;
+            } else {
+                return false;
+            }
         }
     },
     //队列任务管理工具
