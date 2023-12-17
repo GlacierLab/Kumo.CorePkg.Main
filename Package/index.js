@@ -96,7 +96,7 @@ const Module = {
             Module.LeftNav.add("/res/icon/apps.svg", "已安装", "local");
             Module.LeftNav.add("/res/icon/add.svg", "添加更多", "add");
             Module.LeftNav.add("/res/icon/cloud.svg", "轻应用", "cloud");
-            Module.LeftNav.add("/res/icon/toolbox.svg", "轻应用", "toolbox");
+            Module.LeftNav.add("/res/icon/toolbox.svg", "工具箱", "toolbox");
             if (window.Preference.onekeyLaunchByDefault) {
                 Module.LeftNav.switchTo("onekey");
             } else {
@@ -133,6 +133,9 @@ const Module = {
             } else {
                 return false;
             }
+        },
+        getTab: key => {
+            return document.querySelector("#left-nav .nav-item[key='" + key + "']");
         },
         remove: ele => {
             document.getElementById("left-nav").removeChild(ele);
