@@ -16,10 +16,10 @@
             "child": [
                 {
                     "type": "bool",
-                    "key": "hideNonInstall",
-                    "default": true,
-                    "name": "收起未安装的项目",
-                    "description": "未安装的项目收起到更多里"
+                    "key": "onekeyLaunchByDefault",
+                    "default": false,
+                    "name": "默认打开一键启动分页",
+                    "description": "关闭情况下默认打开已安装分页，一键启动以小图标显示"
                 },
                 {
                     "type": "string",
