@@ -1,0 +1,24 @@
+[
+    {
+        "name": "Steam",
+        "key": "steam",
+        "icon": "res/icon/steam.webp",
+        "entry": "lib/install/steam.js",
+        "defaultPath": "%ProgramFiles(x86)%\\Steam\\steam.exe",
+        "process": [
+            "steam.exe",
+            "steamwebhelper.exe",
+            "steamservice.exe"
+        ]
+    },
+    {
+        "name": "Microsoft Store",
+        "key": "msstore",
+        "icon": "res/icon/msstore.webp",
+        "entry": "lib/install/msstore.js",
+        "defaultPath": "UWP#Microsoft.WindowsStore",
+        "process": [
+            "WinStore.App.exe"
+        ]
+    }
+]
