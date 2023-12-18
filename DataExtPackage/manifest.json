@@ -1,0 +1,15 @@
+{
+    "ManifestVersion": 1,
+    "Name": "CorePkg.Main.Data",
+    "DisplayName": "云酱主程序扩展数据包",
+    "Description": "独立更新的数据包",
+    "Author": "琴梨梨",
+    "PkgVersion": 1,
+    "RequireVersion": 100,
+    "ParentPkg": "CorePkg.Main",
+    "Server": "https://github.com/GlacierLab/KumoDesktopPackages/releases/download/",
+    "Path": "CorePkg\\Main\\Data",
+    "Dependency": [
+        "CorePkg.Main"
+    ]
+}
