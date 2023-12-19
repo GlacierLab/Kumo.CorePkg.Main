@@ -9,6 +9,7 @@ const Module = {
                     await value.init();
                 }
             };
+            Module.TaskScheduler.next();
         }
     },
     //配置同步
@@ -18,6 +19,12 @@ const Module = {
         },
         sync: async (readonly = true) => {
             window.Preference = JSON.parse(await chrome.webview.hostObjects.KumoBridge.Kumo_SyncPreference(readonly ? null : window.Preference ? JSON.stringify(window.Preference) : null));
+        },
+        get: key => {
+            return window.Preference[key] ? window.Preference[key] : false;
+        },
+        set: (key, value) => {
+            window.Preference[key] = value;
         }
     },
     //浮动菜单
@@ -37,7 +44,7 @@ const Module = {
                 //再检查运行时
             });
             Module.FloatMenu.add("/res/icon/settings.svg", "设置", async (e) => {
-                await Module.PreferenceManager.sync(true);
+                await Module.PreferenceManager.sync(false);
                 chrome.webview.hostObjects.KumoBridge.Kumo_OpenPreferenceWindow();
             })
             Module.FloatMenu.add("/res/icon/developer_mode.svg", "开发者工具", () => { chrome.webview.hostObjects.sync.KumoBridge.Window_OpenDevTools() })
@@ -163,20 +170,53 @@ const Module = {
             }
         }
     },
-    //队列任务管理工具
+    //队列任务管理工具，用于低优先级的后台任务
     TaskScheduler: {
-        add: (name, callback) => {
-
+        //传入参数为任务描述和开始任务的调用函数
+        add: (name, call) => {
+            Module.TaskScheduler.list.push({
+                name: name,
+                call: call
+            });
+            if (Module.TaskScheduler.list.length == 1 && !Module.TaskScheduler.current) {
+                Module.TaskScheduler.next();
+            } else {
+                Module.Title.set("正在" + Module.TaskScheduler.current.name + (Module.TaskScheduler.list.length ? "[" + Module.TaskScheduler.list.length + "个剩余]" : ""), true)
+            };
         },
-        list: []
+        list: [],
+        current: null,
+        next: () => {
+            if (Module.TaskScheduler.list.length) {
+                Module.TaskScheduler.current = Module.TaskScheduler.list.shift()
+                Module.TaskScheduler.current.call();
+                Module.Title.set("正在" + Module.TaskScheduler.current.name + (Module.TaskScheduler.list.length ? "[" + Module.TaskScheduler.list.length + "个剩余]" : ""), true);
+            } else {
+                Module.Title.set(Module.PreferenceManager.get("welcome"));
+                Module.TaskScheduler.current = null;
+            }
+        }
+    },
+    //简单的标题工具
+    Title: {
+        set: (text, loading = false) => {
+            document.getElementById("title-text").innerText = text;
+            document.getElementById("title-icon").style.display = loading ? "block" : "none";
+        }
     }
 };
 const Callback = {
     Window_State: max => {
         document.getElementById("btn-maximize").style.backgroundImage = max ? 'url(res/icon/fullscreen_exit.svg)' : 'url(res/icon/fullscreen.svg)';
     },
+    Window_Close: async () => {
+        await Module.PreferenceManager.sync(false);
+        chrome.webview.hostObjects.KumoBridge.Window_Close();
+    },
     Preference_Change: () => {
         Module.PreferenceManager.sync();
     }
 }
-Module.AutoInit.run();
+document.addEventListener("DOMContentLoaded", () => {
+    Module.TaskScheduler.add("初始化", Module.AutoInit.run);
+});
