@@ -18,7 +18,7 @@ const Module = {
             await Module.PreferenceManager.sync();
         },
         sync: async (readonly = true) => {
-            window.Preference = JSON.parse(await chrome.webview.hostObjects.KumoBridge.Kumo_SyncPreference(readonly ? null : window.Preference ? JSON.stringify(window.Preference) : null));
+            window.Preference = JSON.parse(await KumoBridge.Kumo_SyncPreference(readonly ? null : window.Preference ? JSON.stringify(window.Preference) : null));
         },
         get: key => {
             return window.Preference[key] ? window.Preference[key] : false;
@@ -45,9 +45,9 @@ const Module = {
             });
             Module.FloatMenu.add("/res/icon/settings.svg", "设置", async (e) => {
                 await Module.PreferenceManager.sync(false);
-                chrome.webview.hostObjects.KumoBridge.Kumo_OpenPreferenceWindow();
+                KumoBridge.Kumo_OpenPreferenceWindow();
             })
-            Module.FloatMenu.add("/res/icon/developer_mode.svg", "开发者工具", () => { chrome.webview.hostObjects.sync.KumoBridge.Window_OpenDevTools() })
+            Module.FloatMenu.add("/res/icon/developer_mode.svg", "开发者工具", () => { KumoBridgeSync.Window_OpenDevTools() })
             Module.FloatMenu.add("/res/icon/info.svg", "关于", () => { Module.FloatFrame.show("/subframe/about.html"); })
         },
         add: (icon, name, callback) => {
@@ -211,7 +211,7 @@ const Callback = {
     },
     Window_Close: async () => {
         await Module.PreferenceManager.sync(false);
-        chrome.webview.hostObjects.KumoBridge.Window_Close();
+        KumoBridge.Window_Close();
     },
     Preference_Change: () => {
         Module.PreferenceManager.sync();
