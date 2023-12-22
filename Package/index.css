@@ -89,6 +89,7 @@ body {
 
 /*展开菜单*/
 #float-menu {
+    background-color: white;
     width: auto;
     outline: 1px solid;
     max-height: calc(95vh - 28px);
@@ -163,6 +164,7 @@ body {
 
 /*左侧导航栏*/
 #left-nav {
+    background-color: white;
     width: 40px;
     height: calc(100% - 28px);
     position: absolute;
@@ -212,4 +214,14 @@ body {
             display: block;
         }
     }
+}
+
+#main-tab {
+    width: calc(100% - 40px);
+    height: calc(100% - 28px);
+    position: absolute;
+    top: 28px;
+    left: 40px;
+    display: flex;
+    background-color: antiquewhite;
 }

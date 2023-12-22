@@ -157,8 +157,20 @@ const Module = {
             document.getElementById("main-tab").appendChild(page);
             return page;
         },
+        getPage: key => {
+            return document.querySelector("#main-tab .tab-page[key='" + key + "']");
+        },
+        removePage: key => {
+            let page = Module.MainTab.getPage(key);
+            if (page) {
+                document.getElementById("main-tab").removeChild(page);
+                return true;
+            } else {
+                return false;
+            }
+        },
         switchTo: key => {
-            let page = document.querySelector("#main-tab .tab-page[key='" + key + "']");
+            let page = Module.MainTab.getPage(key);
             if (page) {
                 document.querySelectorAll("#main-tab .tab-page").forEach(ele => {
                     ele.style.display = "none";
@@ -167,6 +179,32 @@ const Module = {
                 return true;
             } else {
                 return false;
+            }
+        },
+        //模块化的页面，方便拓展
+        ExtLoader: {
+            load: async key => {
+                let page = Module.MainTab.addPage(key);
+                page.innerHTML = await fetch("/tab/" + key + "/tab.pht").then(res => res.text());
+                let head = document.getElementsByTagName('HEAD')[0];
+                let link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.type = 'text/css';
+                link.href = "/tab/" + key + "/tab.css";
+                head.appendChild(link);
+                page.dynamicStyle = link;
+            },
+            unload: key => {
+                let page = Module.MainTab.getPage(key);
+                if (page) {
+                    //卸载CSS
+                    page.dynamicStyle.disabled = true;
+                    page.dynamicStyle.remove();
+                    Module.MainTab.removePage(key);
+                    return true;
+                } else {
+                    return false;
+                }
             }
         }
     },
