@@ -15,7 +15,7 @@
                 name: "修复商店",
                 icon: "/res/icon/",
                 click: () => {
-                    KumoBridge.Execute_Program("C:\Windows\System32\WSReset.exe");
+                    KumoBridge.Execute_Program("C:\\Windows\\System32\\WSReset.exe");
                 }
             }
         ]

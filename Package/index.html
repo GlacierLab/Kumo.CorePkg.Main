@@ -6,6 +6,14 @@
   <script>
     window.KumoBridge = chrome.webview.hostObjects.KumoBridge;
     window.KumoBridgeSync = chrome.webview.hostObjects.sync.KumoBridge;
+    const loadScriptAsync = link => {
+      return new Promise(resolve => {
+        let script = document.createElement("script");
+        script.src = link;
+        script.onload = resolve;
+        document.body.appendChild(script);
+      });
+    }
   </script>
 </head>
 

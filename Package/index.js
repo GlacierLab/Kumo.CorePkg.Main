@@ -150,6 +150,10 @@ const Module = {
     },
     //右侧主页面
     MainTab: {
+        init: () => {
+            const preInstalledTabs = ["local"];
+            preInstalledTabs.forEach(key => { Module.MainTab.ExtLoader.load(key); });
+        },
         addPage: key => {
             let page = document.createElement("div");
             page.className = "tab-page";
@@ -193,6 +197,7 @@ const Module = {
                 link.href = "/tab/" + key + "/tab.css";
                 head.appendChild(link);
                 page.dynamicStyle = link;
+                await loadScriptAsync("/tab/" + key + "/tab.js")
             },
             unload: key => {
                 let page = Module.MainTab.getPage(key);

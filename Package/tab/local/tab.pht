@@ -1,2 +1,5 @@
-<div id="list"></div>
-<div id="menu"></div>
+<div id="local-list">
+    <input role="textbox" id="local-search" name="搜索" placeholder="搜索">
+    <div id="local-blocks"></div>
+</div>
+<div id="local-menu"></div>
