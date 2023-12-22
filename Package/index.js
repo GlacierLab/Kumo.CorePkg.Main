@@ -188,9 +188,9 @@ const Module = {
         current: null,
         next: () => {
             if (Module.TaskScheduler.list.length) {
-                Module.TaskScheduler.current = Module.TaskScheduler.list.shift()
-                Module.TaskScheduler.current.call();
+                Module.TaskScheduler.current = Module.TaskScheduler.list.shift();
                 Module.Title.set("正在" + Module.TaskScheduler.current.name + (Module.TaskScheduler.list.length ? "[" + Module.TaskScheduler.list.length + "个剩余]" : ""), true);
+                Module.TaskScheduler.current.call();
             } else {
                 Module.Title.set(Module.PreferenceManager.get("welcome"));
                 Module.TaskScheduler.current = null;
@@ -202,6 +202,21 @@ const Module = {
         set: (text, loading = false) => {
             document.getElementById("title-text").innerText = text;
             document.getElementById("title-icon").style.display = loading ? "block" : "none";
+        }
+    },
+    //检查更新
+    UpdateCheck: {
+        init: () => {
+            if (Module.PreferenceManager.get("checkUpdateLaunch")) {
+                Module.TaskScheduler.add("初始化", Module.UpdateCheck.run);
+            }
+        },
+        run: () => {
+            //TODO
+            //检查运行时更新
+            //检查主程序包更新
+            //检查扩展数据包更新
+            Module.TaskScheduler.next();
         }
     }
 };
