@@ -27,6 +27,12 @@ const Module = {
             window.Preference[key] = value;
         }
     },
+    //数据文件加载
+    DataLoader: {
+        init: () => {
+
+        }
+    },
     //浮动菜单
     FloatMenu: {
         init: () => {
@@ -101,7 +107,7 @@ const Module = {
             Module.LeftNav.add("/res/icon/rocket.svg", "一键启动", "onekey");
             Module.LeftNav.add("/res/icon/apps.svg", "已安装", "local");
             Module.LeftNav.add("/res/icon/add.svg", "添加更多", "add");
-            Module.LeftNav.add("/res/icon/cloud.svg", "轻应用", "cloud");
+            Module.LeftNav.add("/res/icon/navigate.svg", "网址导航", "navi");
             Module.LeftNav.add("/res/icon/toolbox.svg", "工具箱", "toolbox");
             if (window.Preference.onekeyLaunchByDefault) {
                 Module.LeftNav.switchTo("onekey");
@@ -150,13 +156,16 @@ const Module = {
     //右侧主页面
     MainTab: {
         init: () => {
-            const preInstalledTabs = ["local"];
+            const preInstalledTabs = ["local", "navi"];
             preInstalledTabs.forEach(key => { Module.MainTab.ExtLoader.load(key); });
         },
         addPage: key => {
             let page = document.createElement("div");
             page.className = "tab-page";
             page.setAttribute("key", key);
+            if (document.getElementById("main-tab").childElementCount > 0) {
+                page.style.display = "none";
+            }
             document.getElementById("main-tab").appendChild(page);
             return page;
         },
