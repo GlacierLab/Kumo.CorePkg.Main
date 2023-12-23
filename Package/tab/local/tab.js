@@ -23,11 +23,11 @@
                 return menuItem;
             },
             batchAdd: key => {
+                M.RightMenu.add("/res/icon/play.svg", "启动", window.DynamicInstall[key].launch);
                 window.DynamicInstall[key].menu.forEach(item => {
                     M.RightMenu.add(item.icon, item.name, item.click);
                 });
             }
         }
     }
-    M.RightMenu.add("/res/icon/cloud.svg", "云原神", () => { alert("原神，启动！") });
 })()
