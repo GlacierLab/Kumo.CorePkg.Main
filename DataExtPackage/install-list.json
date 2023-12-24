@@ -2,23 +2,37 @@
     {
         "name": "Steam",
         "key": "steam",
-        "icon": "res/icon/steam.webp",
-        "entry": "lib/install/steam.js",
+        "icon": "/Data/res/icon/steam.webp",
+        "entry": "/Data/lib/install/steam.js",
         "defaultPath": "%ProgramFiles(x86)%\\Steam\\steam.exe",
         "process": [
             "steam.exe",
             "steamwebhelper.exe",
             "steamservice.exe"
+        ],
+        "keyword": [
+            "steam",
+            "蒸汽",
+            "思题目"
         ]
     },
     {
         "name": "Microsoft Store",
         "key": "msstore",
-        "icon": "res/icon/msstore.webp",
-        "entry": "lib/install/msstore.js",
+        "icon": "/Data/res/icon/msstore.webp",
+        "entry": "/Data/lib/install/msstore.js",
         "defaultPath": "UWP#Microsoft.WindowsStore",
         "process": [
             "WinStore.App.exe"
+        ],
+        "keyword": [
+            "msstore",
+            "microsoft",
+            "windows",
+            "微软",
+            "win10",
+            "win11",
+            "系统商店"
         ]
     }
 ]
