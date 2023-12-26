@@ -207,6 +207,15 @@ body {
         }
     }
 
+    @media(min-width:800px) {
+        width: 150px;
+
+        &>.nav-item>.nav-text {
+            display: block;
+        }
+
+    }
+
     &:hover {
         width: 150px;
 
@@ -224,6 +233,11 @@ body {
     left: 40px;
     display: flex;
     overflow: hidden;
+
+    @media(min-width:800px) {
+        width: calc(100% - 150px);
+        left: 150px;
+    }
 }
 
 .tab-page {
