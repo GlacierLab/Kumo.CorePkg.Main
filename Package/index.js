@@ -106,7 +106,6 @@ const Module = {
             //先添加默认菜单，页面绘制TODO
             Module.LeftNav.add("/res/icon/rocket.svg", "一键启动", "onekey");
             Module.LeftNav.add("/res/icon/apps.svg", "已安装", "local");
-            Module.LeftNav.add("/res/icon/add.svg", "添加更多", "add");
             Module.LeftNav.add("/res/icon/navigate.svg", "网址导航", "navi");
             Module.LeftNav.add("/res/icon/toolbox.svg", "工具箱", "toolbox");
             if (window.Preference.onekeyLaunchByDefault) {
@@ -175,6 +174,7 @@ const Module = {
         removePage: key => {
             let page = Module.MainTab.getPage(key);
             if (page) {
+                page.callRemove ? page.callRemove() : false;
                 document.getElementById("main-tab").removeChild(page);
                 return true;
             } else {
